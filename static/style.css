@@ -1,0 +1,17 @@
+#main-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    color: black;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+ion-icon {
+    vertical-align: middle;
+    margin-bottom: 2px;
+}
+
+.custom-popover {
+    --bs-popover-bg: black;
+    --bs-popover-body-color: white;
+    --bs-popover-arrow-color: black;
+}

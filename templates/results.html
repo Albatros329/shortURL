@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="mb-3">
+        <label for="short_url" class="form-label"><strong><ion-icon name="link"></ion-icon> URL raccourcie :</strong></label>
+        <input type="text" class="form-control" id="short_url" value="{{ base_url }}{{ short_url }}" readonly>
+    </div>
+    <hr>
+    <a href="#" id="copy-btn" class="btn btn-secondary" data-bs-toggle="popover" data-bs-placement="top" data-bs-content="Copié !" data-bs-custom-class="custom-popover" data-bs-trigger="manual" onclick="copyToClipboard('{{ base_url }}{{ short_url }}')"><ion-icon name="clipboard"></ion-icon> Copier</a>
+    <a href="/" class="btn btn-primary"><ion-icon name="refresh"></ion-icon> Raccourcir une autre URL</a>
+
+    <script>
+        window.addEventListener('load', function() {
+            const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+            const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+        });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                console.log('Copied to clipboard: ' + text);
+                const btn = document.getElementById('copy-btn');
+                const popover = bootstrap.Popover.getInstance(btn);
+                popover.show();
+                setTimeout(() => popover.hide(), 2000);
+            }, function(err) {
+                console.error('Error copying to clipboard: ', err);
+            });
+        }
+    </script>
+{% endblock %}
