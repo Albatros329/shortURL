@@ -16,7 +16,9 @@ else:
     base_url = os.environ.get("BASEURL", "http://localhost:8080/") 
 
 def get_db_connection():
-    conn = sqlite3.connect('database.db')
+    if not os.path.exists('data'):
+        os.makedirs('data')
+    conn = sqlite3.connect('data/database.db')
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -94,4 +96,4 @@ if __name__ == "__main__":
     conn.commit()
     conn.close()
 
-    app.run(debug=True, port=8080)
+    app.run(host='0.0.0.0', debug=False, port=8080)
