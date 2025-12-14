@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, abort
 from flask_wtf.csrf import CSRFProtect
-from utils import generate_random_code, get_db_connection, is_valid_url
+from utils import generate_random_code, get_db_connection, is_valid_url, initialize_database
 from datetime import datetime, timedelta
 import secrets
 import sqlite3
@@ -9,6 +9,8 @@ import os
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
+
+initialize_database()
 
 if app.debug:
     base_url = "http://localhost:5000/"
@@ -103,13 +105,3 @@ def shorten_url():
         short_url=short_url,
         base_url=base_url
     )
-
-
-
-if __name__ == "__main__":
-    # Initialiser la base de données
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute('CREATE TABLE IF NOT EXISTS urls (short_url TEXT PRIMARY KEY, original_url VARCHAR(1024), expiration INTEGER, creation_date DATETIME DEFAULT CURRENT_TIMESTAMP)')
-    conn.commit()
-    conn.close()

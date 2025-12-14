@@ -21,3 +21,11 @@ def is_valid_url(url):
         return all([parsed.scheme, parsed.netloc]) and parsed.scheme in ['http', 'https']
     except:
         return False
+    
+def initialize_database():
+    # Initialiser la base de données
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('CREATE TABLE IF NOT EXISTS urls (short_url TEXT PRIMARY KEY, original_url VARCHAR(1024), expiration INTEGER, creation_date DATETIME DEFAULT CURRENT_TIMESTAMP)')
+    conn.commit()
+    conn.close()
