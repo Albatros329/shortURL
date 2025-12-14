@@ -1,5 +1,7 @@
 # 🔗 shortURL
 
+[[English](README_EN.md) | [Français](README.md)]
+
 Un raccourcisseur d'URL open-source simple et efficace, construit avec Python et Flask. Raccourcissez simplement vos liens, sans redirection vers de la publicité ou des services tiers.
 
 ## Prérequis
@@ -34,15 +36,21 @@ Un raccourcisseur d'URL open-source simple et efficace, construit avec Python et
 
 ### Avec Docker (recommandé)
 
-1. Assurez-vous que Docker et Docker Compose sont installés.
+1. Assurez-vous que Docker est installé.
 
-2. Lancez le conteneur :
+2. Téléchargez l'image :
 
     ```bash
-    docker compose up -d
+    docker pull ghcr.io/albatros329/shorturl:latest
     ```
 
-    L'application sera accessible à l'adresse `http://localhost:8080`.
+3. Lancez le conteneur :
+
+    ```bash
+    docker run -d -p 8080:8080 -e BASEURL=http://localhost:8080/ ghcr.io/albatros329/shorturl:latest
+    # Veuillez ajuster la variable BASEURL selon votre nom de domaine.
+    ```
+
 
 ## Configuration
 
@@ -51,6 +59,7 @@ Vous pouvez configurer l'URL de base de l'application via une variable d'environ
 | Variable | Description | Valeur par défaut |
 | :--- | :--- | :--- |
 | `BASEURL` | L'URL de base utilisée pour générer les liens raccourcis. | `http://localhost:8080/` |
+| `SECRET_KEY` | Clé secrète pour la sécurité des sessions et CSRF. | Générée aléatoirement (non persistant) |
 
 ## Licence
 
