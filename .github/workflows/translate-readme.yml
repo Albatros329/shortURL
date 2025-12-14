@@ -1,0 +1,37 @@
+name: Translate README
+
+on:
+  push:
+    paths:
+      - 'README.md'
+    branches:
+      - main
+      - dev
+  workflow_dispatch:
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install deep-translator
+
+      - name: Run translation script
+        run: python .github/scripts/translate_readme.py
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: auto-translate README to English"
+          file_pattern: README_EN.md
