@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, abort
 from flask_wtf.csrf import CSRFProtect
 from utils import generate_random_code, get_db_connection, is_valid_url, initialize_database
 from datetime import datetime, timedelta
+from werkzeug.middleware.proxy_fix import ProxyFix
 import secrets
 import sqlite3
 import os
@@ -11,6 +12,9 @@ app = Flask(__name__)
 csrf = CSRFProtect(app)
 
 initialize_database()
+
+# Configuration pour le support derrière un proxy
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 
 if app.debug:
     base_url = "http://localhost:5000/"
@@ -61,6 +65,7 @@ def redirect_to_url(short_url):
     else:
         conn.close()
         return "URL non trouvée", 404
+
 
 
 @app.route("/shorten/", methods=['POST'])
